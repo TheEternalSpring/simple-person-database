@@ -1,19 +1,28 @@
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class Main {
 
-    public static int numbering = 1;
 
     public static void main(String[] args) throws IOException {
-
         Scanner inputDevice = new Scanner(System.in);
 
         while(true){
-            FileWriter databaseWriter = new FileWriter("Database.txt",true);
-            System.out.println("would you like to add(+) person or exit?(-)");
+            Path tehDatabase = Path.of("Database.txt");
+            FileWriter databaseWriter = new FileWriter(tehDatabase.toFile(),true);
+            Path numberPath = Path.of("saved_numbering.txt");
+            String contentsOfNumberingPath = Files.readString(numberPath);
+            int loadTheNumber = Integer.parseInt(contentsOfNumberingPath.trim());
+
+            System.out.println("would you like to:");
+            System.out.println("Add Person? (+)");
+            System.out.println("Exit? (-)");
+            System.out.println("Reset Database?(/)");
             String action = inputDevice.nextLine();
+
             if (action.equals("+")){
                 System.out.println("Enter person name:");
                 String name = inputDevice.nextLine();
@@ -22,22 +31,29 @@ public class Main {
                 System.out.println("Enter person work or occupation:");
                 String occupation = inputDevice.nextLine();
                 System.out.println("Enter person age:");
-                int age = inputDevice.nextInt();
+                int age = Integer.parseInt(inputDevice.nextLine().trim());
 
 
-                System.out.println("Digesting input, please wait \n");
+                System.out.println("Digesting input, please wait");
                 Person thisSpecificPerson =  new Person(name,age,city,occupation);
                 System.out.println(thisSpecificPerson);
-                databaseWriter.write(numbering + " - " + thisSpecificPerson.toString());
-                databaseWriter.write("\n");
+
+                databaseWriter.write(loadTheNumber + " - " + thisSpecificPerson.toString() + "\n");
                 databaseWriter.close();
-                numbering++;
+
+                loadTheNumber++;
+                Files.writeString(numberPath,String.valueOf(loadTheNumber));
+
+
             }
+
             if (action.equals("-")){
                 break;
             }
-            else{
-                System.out.println("unidentified command, please try again");
+
+            if (action.equals("/")){
+                Files.writeString(numberPath,String.valueOf(1));
+                new FileWriter(tehDatabase.toFile(), false).close();
             }
 
         }
