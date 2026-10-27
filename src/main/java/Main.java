@@ -23,6 +23,8 @@ public class Main {
             System.out.println("Reset Database?(/)");
             String action = inputDevice.nextLine();
 
+            //something
+
             if (action.equals("+")){
                 System.out.println("Enter person name:");
                 String name = inputDevice.nextLine();
