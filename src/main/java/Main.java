@@ -1,7 +1,6 @@
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
 
 public class Main {
@@ -11,11 +10,14 @@ public class Main {
         Scanner inputDevice = new Scanner(System.in);
 
         while(true){
+
             Path tehDatabase = Path.of("Database.txt");
             FileWriter databaseWriter = new FileWriter(tehDatabase.toFile(),true);
             Path numberPath = Path.of("saved_numbering.txt");
             String contentsOfNumberingPath = Files.readString(numberPath);
             int loadTheNumber = Integer.parseInt(contentsOfNumberingPath.trim());
+
+
 
             System.out.println("would you like to:");
             System.out.println("Add Person? (+)");
@@ -48,6 +50,7 @@ public class Main {
 
 
             }
+
 
             if (action.equals("-")){
                 break;
